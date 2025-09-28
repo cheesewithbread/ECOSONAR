@@ -50,19 +50,28 @@
   --transition-fast: 0.15s ease-in-out;
   --transition-normal: 0.3s ease-in-out;
   --transition-slow: 0.5s ease-in-out;
+
+  /* ====== Ajustes UI dark y formularios ====== */
+  --bg-900: #0b1422;
+  --bg-800: #0f1b2e;
+  --card: rgba(24, 39, 62, .6);
+  --border: rgba(78, 151, 201, .25);
+  --teal: #0d9488;
+  --teal-200: #5eead4;
+  --text: #e6f1ff;
+  --muted: #9fb3c8;
+
 }
 
 /* Estilos base */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(
-    135deg,
-    var(--primary-dark) 0%,
-    var(--primary-blue-dark) 25%,
-    var(--primary-blue) 50%,
-    var(--primary-blue-light) 75%,
-    var(--secondary-dark) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-dark) 0%,
+      var(--primary-blue-dark) 25%,
+      var(--primary-blue) 50%,
+      var(--primary-blue-light) 75%,
+      var(--secondary-dark) 100%);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -101,10 +110,12 @@ body {
 
 /* Animaciones */
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -115,6 +126,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -122,10 +134,12 @@ body {
 }
 
 @keyframes pulse-glow {
+
   0%,
   100% {
     box-shadow: 0 0 20px rgba(13, 148, 136, 0.3);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(13, 148, 136, 0.6);
   }
@@ -136,6 +150,7 @@ body {
     transform: scale(0.8);
     opacity: 1;
   }
+
   100% {
     transform: scale(2.5);
     opacity: 0;
@@ -608,9 +623,11 @@ body {
 .stat-change.positive {
   color: var(--success);
 }
+
 .stat-change.negative {
   color: var(--error);
 }
+
 .stat-change.neutral {
   color: var(--text-secondary);
 }
@@ -1110,4 +1127,225 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-cyan);
+}
+
+
+
+/* Cards sutiles */
+.glass-card {
+  backdrop-filter: blur(10px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px
+}
+
+/* Upload area states */
+.upload-area {
+  transition: border-color .2s, background .2s
+}
+
+.upload-area.dragging {
+  border-color: var(--teal);
+  background: rgba(13, 148, 136, .12)
+}
+
+/* Result tiles */
+.result-card,
+.stat-card,
+.benefit-card {
+  border: 1px solid var(--border)
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, .08);
+  border-radius: 9999px;
+  overflow: hidden
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--teal), var(--teal-200));
+  height: 100%;
+  width: 0%
+}
+
+/* Inputs */
+.input-field,
+.select-field {
+  width: 100%;
+  color: var(--text);
+  background: var(--bg-800);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  outline: none;
+  transition: box-shadow .2s, border-color .2s;
+  caret-color: var(--teal);
+}
+
+.input-field::placeholder {
+  color: #87a0b8
+}
+
+.input-field:focus,
+.select-field:focus {
+  border-color: rgba(13, 148, 136, .6);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, .25);
+}
+
+/* Select visible + flecha */
+.select-field {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23a7b7cc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  background-size: 16px;
+  padding-right: 2.2rem;
+}
+
+/* Opciones dentro del desplegable (Firefox/Chromium) */
+.select-field option {
+  color: var(--text);
+  background: var(--bg-900)
+}
+
+/* Sliders */
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  outline: none;
+  background: linear-gradient(90deg, rgba(13, 148, 136, .9), rgba(94, 234, 212, .7));
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 2px solid #0e7490;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 2px solid #0e7490;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(90deg, #0ea5e9, #0d9488);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(13, 148, 136, .25);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05)
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--border);
+  color: #e6f1ff
+}
+
+/* Charts containers */
+.chart-container {
+  border: 1px solid var(--border)
+}
+
+/* Alertas */
+.alert-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, .03)
+}
+
+.alert-item.warning {
+  border-color: rgba(245, 158, 11, .45)
+}
+
+.alert-item.info {
+  border-color: rgba(59, 130, 246, .45)
+}
+
+/* ====== Reproductor de música ====== */
+.music-section .player {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(24, 39, 62, .5)
+}
+
+.music-section .player .track {
+  min-width: 220px;
+  color: var(--muted);
+  font-size: .95rem
+}
+
+.music-section .player .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, .06);
+  color: #e6f1ff;
+  cursor: pointer
+}
+
+.music-section input[type="range"] {
+  width: 160px
+}
+
+/* Reutilizable para filas de URL */
+.url-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px
+}
+
+.url-row .input-field {
+  flex: 1
+}
+
+@media (max-width:640px) {
+  .url-row {
+    flex-direction: column
+  }
+
+  .url-row .btn-primary {
+    width: 100%
+  }
+}
+
+/* Oculta el iframe de YouTube sin romper reproducción */
+.yt-offscreen {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none
 }

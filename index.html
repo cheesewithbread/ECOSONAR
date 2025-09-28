@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ECOSONAR - Análisis Acústico Marino</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" href="./storage/logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+    <meta name="color-scheme" content="light dark" />
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
             <div class="nav-brand">
-                <i class="fas fa-wave-square"></i>
+                <img src="./storage/icono.png" style="width: 80px;"></i>
                 <span>ECOSONAR</span>
             </div>
             <ul class="nav-menu">
@@ -22,10 +29,8 @@
                 <li><a href="#configuracion">Configuración</a></li>
                 <li><a href="#beneficios">Beneficios</a></li>
             </ul>
-            <button class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+                <span></span><span></span><span></span>
             </button>
         </nav>
     </header>
@@ -40,8 +45,8 @@
                         <span class="gradient-text">Inteligente</span>
                     </h1>
                     <p class="hero-description">
-                        Revoluciona el monitoreo marino con tecnología de vanguardia. 
-                        ECOSONAR utiliza inteligencia artificial para analizar patrones acústicos 
+                        Revoluciona el monitoreo marino con tecnología de vanguardia.
+                        ECOSONAR utiliza inteligencia artificial para analizar patrones acústicos
                         y proteger los ecosistemas marinos.
                     </p>
                     <div class="hero-buttons">
@@ -70,9 +75,10 @@
                     <h2>Analizador de Imágenes Acústicas</h2>
                     <p>Sube tus imágenes de sonar para análisis automático con IA</p>
                 </div>
-                
+
                 <div class="analyzer-container glass-card">
-                    <div class="upload-area" id="uploadArea">
+                    <div class="upload-area" id="uploadArea" role="button" tabindex="0"
+                        title="Haz clic para seleccionar una imagen">
                         <div class="upload-content">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <h3>Arrastra tu imagen aquí</h3>
@@ -80,15 +86,15 @@
                             <input type="file" id="fileInput" accept="image/*" hidden>
                         </div>
                     </div>
-                    
+
                     <div class="analysis-results" id="analysisResults" style="display: none;">
                         <div class="result-header">
                             <h3>Resultados del Análisis</h3>
                             <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill"></div>
+                                <div class="progress-fill" id="progressFill" style="width:0%"></div>
                             </div>
                         </div>
-                        
+
                         <div class="results-grid">
                             <div class="result-card">
                                 <h4>Especies Detectadas</h4>
@@ -107,7 +113,7 @@
                                 <div id="biodiversity">Alta</div>
                             </div>
                         </div>
-                        
+
                         <div class="analysis-details">
                             <h4>Detalles del Análisis</h4>
                             <ul id="analysisDetailsList">
@@ -117,6 +123,55 @@
                     </div>
                 </div>
             </div>
+
+
+            <br><br><br>
+            <section id="musica" class="music-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Música Ambiente</h2>
+                        <p>Sube tu pista para acompañar el análisis (MP3/OGG/WAV)</p>
+                    </div>
+                    <div class="url-row" style="margin-left:auto">
+                        <input id="musicUrlInput" type="url" class="input-field"
+                            placeholder="o pega una URL de audio (mp3/ogg/wav)" autocomplete="off">
+                        <button id="musicUrlBtn" type="button" class="btn-primary">
+                            <i class="fas fa-link"></i> Usar URL
+                        </button>
+                    </div>
+
+
+                    <div class="glass-card player">
+                        <button id="musicPlay" class="btn" title="Play/Pause">
+                            <i class="fas fa-play"></i>
+                        </button>
+
+                        <label class="btn-secondary" style="padding:10px 14px; border-radius:10px; cursor:pointer;">
+                            <i class="fas fa-music"></i> <span style="margin-left:6px">Elegir pista</span>
+                            <input id="musicFile" type="file" accept="audio/*" hidden />
+                        </label>
+
+                        <div class="track">
+                            <strong>Pista:</strong> <span id="musicName">ninguna</span>
+                        </div>
+
+                        <label>Volumen
+                            <input id="musicVolume" type="range" min="0" max="1" step="0.01" value="0.5" />
+                        </label>
+
+                        <label style="display:flex; align-items:center; gap:6px">
+                            <input id="musicLoop" type="checkbox" />
+                            Repetir
+                        </label>
+
+                        <audio id="bgMusic" preload="none"></audio>
+                    </div>
+                </div>
+            </section>
+            <br><br><br><br>
+
+            <!-- Canvas oculto de trabajo para procesamiento local -->
+            <canvas id="workCanvas" width="512" height="512" style="display:none"></canvas>
         </section>
 
         <!-- Configuration Section -->
@@ -126,7 +181,7 @@
                     <h2>Configuración Inicial</h2>
                     <p>Personaliza los parámetros de análisis según tu proyecto</p>
                 </div>
-                
+
                 <div class="config-grid">
                     <div class="config-card glass-card">
                         <div class="config-icon">
@@ -135,13 +190,13 @@
                         <h3>Parámetros de Frecuencia</h3>
                         <p>Configura rangos de frecuencia específicos para diferentes especies marinas</p>
                         <div class="config-controls">
-                            <label>Frecuencia Mínima (Hz)</label>
-                            <input type="range" min="20" max="2000" value="100" class="slider">
-                            <label>Frecuencia Máxima (Hz)</label>
-                            <input type="range" min="2000" max="20000" value="10000" class="slider">
+                            <label for="freqMin">Frecuencia Mínima (Hz)</label>
+                            <input id="freqMin" type="range" min="20" max="2000" value="100" class="slider">
+                            <label for="freqMax">Frecuencia Máxima (Hz)</label>
+                            <input id="freqMax" type="range" min="2000" max="20000" value="10000" class="slider">
                         </div>
                     </div>
-                    
+
                     <div class="config-card glass-card">
                         <div class="config-icon">
                             <i class="fas fa-map-marker-alt"></i>
@@ -149,9 +204,9 @@
                         <h3>Ubicación Geográfica</h3>
                         <p>Define la zona de estudio para análisis contextual</p>
                         <div class="config-controls">
-                            <input type="text" placeholder="Latitud" class="input-field">
-                            <input type="text" placeholder="Longitud" class="input-field">
-                            <select class="select-field">
+                            <input id="lat" type="text" placeholder="Latitud" class="input-field">
+                            <input id="lng" type="text" placeholder="Longitud" class="input-field">
+                            <select id="ocean" class="select-field">
                                 <option>Océano Atlántico</option>
                                 <option>Océano Pacífico</option>
                                 <option>Mar Mediterráneo</option>
@@ -159,7 +214,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="config-card glass-card">
                         <div class="config-icon">
                             <i class="fas fa-clock"></i>
@@ -167,15 +222,15 @@
                         <h3>Duración del Monitoreo</h3>
                         <p>Establece períodos de grabación y análisis automático</p>
                         <div class="config-controls">
-                            <label>Duración por sesión</label>
-                            <select class="select-field">
+                            <label for="sessionDuration">Duración por sesión</label>
+                            <select id="sessionDuration" class="select-field">
                                 <option>15 minutos</option>
                                 <option>30 minutos</option>
                                 <option>1 hora</option>
                                 <option>2 horas</option>
                             </select>
-                            <label>Intervalo entre sesiones</label>
-                            <select class="select-field">
+                            <label for="sessionInterval">Intervalo entre sesiones</label>
+                            <select id="sessionInterval" class="select-field">
                                 <option>1 hora</option>
                                 <option>6 horas</option>
                                 <option>12 horas</option>
@@ -194,46 +249,38 @@
                     <h2>Monitoreo en Tiempo Real</h2>
                     <p>Visualiza datos acústicos en vivo y recibe alertas automáticas</p>
                 </div>
-                
+
                 <div class="monitoring-dashboard">
                     <div class="dashboard-stats">
                         <div class="stat-card glass-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-fish"></i>
-                            </div>
+                            <div class="stat-icon"><i class="fas fa-fish"></i></div>
                             <div class="stat-content">
                                 <h3>Especies Activas</h3>
                                 <div class="stat-number" id="activeSpecies">12</div>
                                 <div class="stat-change positive">+3 desde ayer</div>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card glass-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-volume-up"></i>
-                            </div>
+                            <div class="stat-icon"><i class="fas fa-volume-up"></i></div>
                             <div class="stat-content">
                                 <h3>Nivel de Ruido</h3>
                                 <div class="stat-number" id="noiseDb">45 dB</div>
                                 <div class="stat-change negative">-2 dB desde ayer</div>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card glass-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-thermometer-half"></i>
-                            </div>
+                            <div class="stat-icon"><i class="fas fa-thermometer-half"></i></div>
                             <div class="stat-content">
                                 <h3>Temperatura</h3>
                                 <div class="stat-number" id="temperature">18.5°C</div>
                                 <div class="stat-change neutral">Sin cambios</div>
                             </div>
                         </div>
-                        
+
                         <div class="stat-card glass-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-tint"></i>
-                            </div>
+                            <div class="stat-icon"><i class="fas fa-tint"></i></div>
                             <div class="stat-content">
                                 <h3>Salinidad</h3>
                                 <div class="stat-number" id="salinity">35.2 PSU</div>
@@ -241,19 +288,18 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="monitoring-charts">
                         <div class="chart-container glass-card">
                             <h3>Actividad Acústica (24h)</h3>
                             <canvas id="acousticChart" width="400" height="200"></canvas>
                         </div>
-                        
                         <div class="chart-container glass-card">
                             <h3>Distribución de Especies</h3>
                             <canvas id="speciesChart" width="400" height="200"></canvas>
                         </div>
                     </div>
-                    
+
                     <div class="alerts-panel glass-card">
                         <h3>Alertas Recientes</h3>
                         <div class="alerts-list" id="alertsList">
@@ -286,30 +332,24 @@
                     <h2>Análisis Comparativo</h2>
                     <p>Compara datos históricos y genera informes detallados</p>
                 </div>
-                
+
                 <div class="analysis-tools">
                     <div class="tool-card glass-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
+                        <div class="tool-icon"><i class="fas fa-chart-bar"></i></div>
                         <h3>Análisis Temporal</h3>
                         <p>Compara patrones acústicos a lo largo del tiempo</p>
                         <button class="btn-tool">Generar Análisis</button>
                     </div>
-                    
+
                     <div class="tool-card glass-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
+                        <div class="tool-icon"><i class="fas fa-layer-group"></i></div>
                         <h3>Análisis por Capas</h3>
                         <p>Examina diferentes profundidades del océano</p>
                         <button class="btn-tool">Iniciar Análisis</button>
                     </div>
-                    
+
                     <div class="tool-card glass-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
+                        <div class="tool-icon"><i class="fas fa-brain"></i></div>
                         <h3>IA Predictiva</h3>
                         <p>Predicciones basadas en patrones históricos</p>
                         <button class="btn-tool">Ver Predicciones</button>
@@ -325,30 +365,24 @@
                     <h2>Exportación de Resultados</h2>
                     <p>Genera informes profesionales en múltiples formatos</p>
                 </div>
-                
+
                 <div class="export-options">
                     <div class="export-card glass-card">
-                        <div class="export-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
+                        <div class="export-icon"><i class="fas fa-file-pdf"></i></div>
                         <h3>Informe PDF</h3>
                         <p>Documento completo con gráficos y análisis</p>
                         <button class="btn-export">Descargar PDF</button>
                     </div>
-                    
+
                     <div class="export-card glass-card">
-                        <div class="export-icon">
-                            <i class="fas fa-file-excel"></i>
-                        </div>
+                        <div class="export-icon"><i class="fas fa-file-excel"></i></div>
                         <h3>Datos Excel</h3>
                         <p>Datos en bruto para análisis personalizado</p>
                         <button class="btn-export">Exportar Excel</button>
                     </div>
-                    
+
                     <div class="export-card glass-card">
-                        <div class="export-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
+                        <div class="export-icon"><i class="fas fa-database"></i></div>
                         <h3>Base de Datos</h3>
                         <p>Exportación directa a sistemas externos</p>
                         <button class="btn-export">Configurar API</button>
@@ -364,41 +398,33 @@
                     <h2>Beneficios de ECOSONAR</h2>
                     <p>Descubre cómo nuestra tecnología revoluciona la investigación marina</p>
                 </div>
-                
+
                 <div class="benefits-grid">
                     <div class="benefit-card glass-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
+                        <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
                         <h3>Conservación Marina</h3>
                         <p>Protege ecosistemas vulnerables mediante monitoreo continuo y alertas tempranas</p>
                     </div>
-                    
+
                     <div class="benefit-card glass-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-microscope"></i>
-                        </div>
+                        <div class="benefit-icon"><i class="fas fa-microscope"></i></div>
                         <h3>Investigación Avanzada</h3>
                         <p>Acelera descubrimientos científicos con análisis automatizado de datos acústicos</p>
                     </div>
-                    
+
                     <div class="benefit-card glass-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
+                        <div class="benefit-icon"><i class="fas fa-coins"></i></div>
                         <h3>Reducción de Costos</h3>
                         <p>Minimiza gastos operativos con monitoreo remoto y análisis automatizado</p>
                     </div>
-                    
+
                     <div class="benefit-card glass-card">
-                        <div class="benefit-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
+                        <div class="benefit-icon"><i class="fas fa-clock"></i></div>
                         <h3>Tiempo Real</h3>
                         <p>Obtén resultados instantáneos y toma decisiones informadas al momento</p>
                     </div>
                 </div>
-                
+
                 <div class="stats-showcase">
                     <div class="stat-showcase">
                         <div class="stat-number">95%</div>
@@ -430,7 +456,8 @@
                         <i class="fas fa-wave-square"></i>
                         <span>ECOSONAR</span>
                     </div>
-                    <p>Revolucionando el análisis acústico marino con tecnología de vanguardia para la conservación de nuestros océanos.</p>
+                    <p>Revolucionando el análisis acústico marino con tecnología de vanguardia para la conservación de
+                        nuestros océanos.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin"></i></a>
@@ -438,7 +465,7 @@
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Productos</h3>
                     <ul>
@@ -448,7 +475,7 @@
                         <li><a href="#">API de Integración</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Recursos</h3>
                     <ul>
@@ -458,7 +485,7 @@
                         <li><a href="#">Soporte Técnico</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3>Contacto</h3>
                     <div class="contact-info">
@@ -468,7 +495,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2024 ECOSONAR. Todos los derechos reservados.</p>
                 <div class="footer-links">
@@ -480,6 +507,101 @@
         </div>
     </footer>
 
+    <!-- Input oculto para análisis comparativo (capas / temporal) -->
+    <input id="compareInput" type="file" accept="image/*" multiple hidden>
+
+    <!-- Sonidito (sintetizado por Web Audio; sin archivos externos) -->
+    <script>
+        window.__ecosonar_beep = (function () {
+            let ctx;
+            return function beep(duration = 0.2, frequency = 880, volume = 0.2) {
+                try {
+                    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+                    const o = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    o.type = "sine";
+                    o.frequency.value = frequency;
+                    g.gain.value = 0;
+                    o.connect(g); g.connect(ctx.destination);
+                    o.start();
+                    // Fade in-out suave
+                    const now = ctx.currentTime;
+                    g.gain.linearRampToValueAtTime(0.0001, now);
+                    g.gain.exponentialRampToValueAtTime(Math.max(0.0002, volume), now + 0.02);
+                    g.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+                    o.stop(now + duration + 0.02);
+                } catch (e) { /* sin audio */ }
+            };
+        })();
+    </script>
+
+    <!-- Scripts originales -->
     <script src="./js/script.js"></script>
+
+    <!-- Scripts funcionales (añadidos) -->
+    <script src="./js/state.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/export.js"></script>
+    <script src="./js/compare.js"></script>
+
+    <!-- Arranque + ganchos mínimos y sonido en eventos -->
+    <script>
+        // Scroll helper (por si tu script.js no lo trae)
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Click en el área de carga abre el file input
+        (function bindUploadArea() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            if (!uploadArea || !fileInput) return;
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+            });
+            // soporta drag&drop suave
+            ['dragover', 'dragenter'].forEach(ev => uploadArea.addEventListener(ev, e => { e.preventDefault(); uploadArea.classList.add('dragging'); }));
+            ['dragleave', 'drop'].forEach(ev => uploadArea.addEventListener(ev, e => { e.preventDefault(); uploadArea.classList.remove('dragging'); }));
+        })();
+
+        // Sonidito: nuevas alertas en la lista -> beep
+        (function soundOnAlerts() {
+            const list = document.getElementById('alertsList');
+            if (!list || !window.__ecosonar_beep) return;
+            const mo = new MutationObserver(muts => {
+                for (const m of muts) {
+                    if (m.addedNodes && m.addedNodes.length) {
+                        window.__ecosonar_beep(0.18, 880, 0.2);
+                    }
+                }
+            });
+            mo.observe(list, { childList: true });
+        })();
+
+        // Sonidito: cuando los resultados de análisis se muestran por primera vez
+        (function soundOnAnalysisShown() {
+            const panel = document.getElementById('analysisResults');
+            if (!panel || !window.__ecosonar_beep) return;
+            let visible = panel.style.display !== 'none';
+            const mo = new MutationObserver(() => {
+                const nowVisible = panel.style.display !== 'none';
+                if (nowVisible && !visible) {
+                    window.__ecosonar_beep(0.22, 740, 0.18);
+                }
+                visible = nowVisible;
+            });
+            mo.observe(panel, { attributes: true, attributeFilter: ['style'] });
+        })();
+
+        // Inicializa ecosonar (persistencia + IA + export + comparativos + stream)
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.ECOSONAR && typeof window.ECOSONAR.init === 'function') {
+                window.ECOSONAR.init();
+            }
+        });
+    </script>
 </body>
+
 </html>
