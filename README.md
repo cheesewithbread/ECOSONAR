@@ -1,10 +1,13 @@
 
-# ECOSONAR 🐬📡
+# ECOSONAR <img src="./storage/logo.png" width="30"/>
 
 **Solución integral para el monitoreo y análisis de datos acústicos marinos**
 
 > **ECOSONAR** permite **subir** de imágenes de sonar, procesarlas con técnicas de visión por computador en el navegador y generar métricas como especies/objetos detectados, nivel de ruido, calidad del agua y biodiversidad. Incluye **monitoreo en vivo**, **gráficos** y  **alertas con sonido** .
 
+<p align="center">
+  <img src="./storage/icono.png" width="500"/>
+</p>
 <br><br>
 
 ## 🧭 Contenido
